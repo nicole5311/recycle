@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recyclability Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            animation: fadeIn 0.5s;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            animation: fadeIn 0.5s;
+        }
+
+        .form-group input[type="file"] {
+            display: block;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 100%;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-group button:hover {
+            background-color: #555;
+        }
+
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            animation: fadeOut 0.5s;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #0099ff;">Recyclability Checker</h1>
+        <form id="upload-form">
+            <div class="form-group">
+                <label for="file" style="color: #333;">Select an item:</label>
+                <input type="file" id="file" name="file" accept="image/*">
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="uploadFile()" style="background-color: #0099ff;">Check Recyclability</button>
+            </div>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function uploadFile() {
+            var file = document.getElementById('file').files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+            
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                var resultDiv = document.getElementById('result');
+                resultDiv.textContent = 'Recyclability: ' + data;
+                resultDiv.style.color = '#0099ff';
+                resultDiv.classList.add('fadeIn');
+                setTimeout(function() {
+                    resultDiv.classList.remove('fadeIn');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
